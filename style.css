@@ -169,6 +169,12 @@ body.light-mode .amharic-quote {
     font-weight: 500;      /* Slightly bolder for light mode visibility */
 }
 
+/* --- THE FIX FOR NUMBER 3 --- */
+body.light-mode .white-word {
+    color: #000000 !important; /* This breaks the "White Trap" */
+    text-shadow: none !important;
+}
+
 .nav-links {
     display: flex;
     list-style: none;
@@ -624,6 +630,293 @@ body.light-mode .stat-pill span {
 
 body.light-mode .stat-pill span {
     font-weight: 500;
+}
+
+/* --- Programs Mode State Logic --- */
+
+/* --- Programs Mode State Logic --- */
+
+/* 1. Hide the default content when programs are active */
+/* We target the specific divs and p tags since they aren't in a wrapper */
+body.programs-mode .side-slogan .hard-times:not(.programs-header .hard-times),
+body.programs-mode .side-slogan .good-times:not(.programs-header .good-times),
+body.programs-mode .side-slogan .amharic-quote,
+body.programs-mode .side-slogan .cta-btn,
+body.programs-mode .stat-group,
+body.programs-mode .features {
+    display: none !important;
+}
+
+/* 2. Show the Programs header (Matching your HTML class) */
+body.programs-mode .programs-header {
+    display: block !important;
+    margin-top: -250px;
+    margin-left: 0px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* 3. Layout adjustments to keep the background and divider locked */
+body.programs-mode .hero-top {
+    height: 100vh;
+    transition: height 0.5s ease;
+}
+
+body.programs-mode .organic-divider {
+    position: absolute;
+    bottom: 0;
+    z-index: 20;
+    display: block !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- Programs Grid Container --- */
+.programs-grid {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px; /* Moves the cards down from the "OUR PROGRAMS" title */
+    padding: 20px 0;
+    pointer-events: auto; /* Ensures you can hover/click the cards */
+}
+
+/* --- Individual Glassmorphic Cards --- */
+.prog-card {
+    /* INCREASED SIZE */
+    width: 320px;          /* Was 280px */
+    min-height: 450px;     /* Forces the "taller" look */
+    
+    padding: 45px 30px;    /* More internal space for a high-end feel */
+    border-radius: 25px;
+    
+    /* Keep existing glass effects */
+    background: rgba(255, 255, 255, 0.03); 
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    
+    /* Keep existing animations */
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: cardFadeSlide 0.8s forwards;
+    
+    /* ADD THIS: Space out content inside the tall card */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* --- Hover State --- */
+.prog-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    border: 1px solid rgba(0, 243, 255, 0.8);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Card Content Typography --- */
+.prog-card h4 {
+    color: #ffd700;
+    font-size: 1.6rem;         /* Slightly larger title */
+    text-transform: uppercase;
+    margin-bottom: 40px;      /* CREATES A GAP: Pushes the list further down */
+    letter-spacing: 4px;      /* STRETCHES WORDS: Adds air between letters */
+    font-weight: 900;
+}
+
+/* --- Card List Styling --- */
+.prog-card li {
+    color: #ffffff;
+    font-size: 1.1rem;
+    
+    /* STRETCHES TEXT VERTICALLY */
+    line-height: 2.2;         /* Adds significant space between bullet lines */
+    
+    /* STRETCHES WORDS HORIZONTALLY */
+    letter-spacing: 1.2px;    /* Makes the sentence feel more 'free' */
+    
+    margin-bottom: 15px;      /* Extra gap between items */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    opacity: 0.9;
+}
+
+.prog-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Custom Cyan Bullet Points */
+.prog-card li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: #00f3ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00f3ff;
+    flex-shrink: 0;
+}
+
+/* --- Light Theme / White Mode Adaptation --- */
+
+/* 1. Target the card container using light-mode */
+body.programs-mode.light-mode .prog-card {
+    background: rgba(0, 0, 0, 0.07) !important; 
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(30px);
+}
+
+/* 2. Force the Bullet Points to Black */
+body.programs-mode.light-mode .prog-card li::before {
+    background: #000000 !important;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 3. Force the Bullet Text and White Words to Black */
+body.programs-mode.light-mode .prog-card li,
+body.light-mode .white-word {
+    color: #000000 !important;
+    text-shadow: none !important; 
+    opacity: 1;
+}
+
+/* 4. Adjust Title for high contrast */
+body.programs-mode.light-mode .prog-card h4 {
+    color: #8b6d00 !important; 
+    text-shadow: none !important;
+}
+
+/* --- Staggered Animation Delays --- */
+.prog-card:nth-child(1) { animation-delay: 0.2s; }
+.prog-card:nth-child(2) { animation-delay: 0.4s; }
+.prog-card:nth-child(3) { animation-delay: 0.6s; }
+.prog-card:nth-child(4) { animation-delay: 0.8s; }
+
+@keyframes cardFadeSlide {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Hypertrophy Card Special Styling --- */
+
+/* 1. Reset Container to sit INSIDE the card padding */
+.hypertrophy-special .icon-badge-container {
+    position: relative; /* No longer absolute, it stays in the flow */
+    top: 0; 
+    left: 0;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px; /* Space between the gold frame and the text */
+}
+
+/* 2. The FULLY GOLD Circular Frame */
+.hypertrophy-special .gold-circle-frame {
+    width: 80px;
+    height: 80px;
+    background: #ffd700; /* Solid Gold */
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Strong metallic depth shadow */
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.5), 
+        0 8px 20px rgba(255, 215, 0, 0.3);
+}
+
+/* 3. The Flexed Arm Icon */
+.hypertrophy-special .badge-icon {
+    width: 50px;
+    height: auto;
+    /* Since the frame is solid gold, we want the icon to "cut through" it */
+    filter: brightness(0); /* This makes the arm black for maximum contrast on gold */
+}
+
+/* 4. Hypertrophy Title - Matching Gold */
+.hypertrophy-special h4 {
+    color: #ffd700 !important;
+    text-align: center;
+    margin-top: 0;
+}
+
+/* --- Light Mode Adaptation --- */
+body.light-mode .hypertrophy-special .gold-circle-frame {
+    background: #b8860b; /* Deeper metallic gold for light mode visibility */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode .hypertrophy-special .badge-icon {
+    filter: brightness(100) invert(1); /* Optional: makes icon white on dark gold in light mode */
+}
+
+/* --- Strength Card Special Styling --- */
+/* --- Strength Card Special Styling --- */
+
+/* 1. Internal Badge Container */
+.strength-special .icon-badge-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+/* 2. The FULLY BLUE (Cyan) Circular Frame */
+.strength-special .blue-circle-frame {
+    width: 80px;
+    height: 80px;
+    background: #00f3ff; /* Neon Cyan */
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.6), 
+        0 8px 25px rgba(0, 243, 255, 0.4);
+}
+
+/* 3. The Dumbbell Icon */
+.strength-special .badge-icon {
+    width: 50px;
+    height: auto;
+    filter: brightness(0); 
+}
+
+/* 4. THE STRENGTH TITLE - FIXED FOR ALL THEMES */
+.strength-special h4 {
+    color: #00d4ff !important; /* High-contrast Electric Blue */
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 900;
+    text-shadow: 0 0 15px rgba(0, 243, 255, 0.5); 
+}
+
+/* --- Specific Light Mode Overrides for Strength --- */
+
+/* This prevents the "Dark Gold" rule from grabbing the word Strength */
+body.light-mode .strength-special h4 {
+    color: #0077cc !important; /* A slightly deeper blue so it's readable on white */
+    text-shadow: none !important;
+}
+
+body.light-mode .strength-special .blue-circle-frame {
+    background: #0096ff !important; /* Solid blue frame */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Keep the icon black on the blue circle in light mode */
+body.light-mode .strength-special .badge-icon {
+    filter: brightness(0) !important;
 }
 
 /* Ensure it doesn't overlap on smaller screens */
