@@ -35,9 +35,16 @@ body {
 header {
     width: 100%;
     padding: 20px 5%;
-    position: fixed; /* Changed from absolute to fixed */
+    position: absolute; /* Changed from fixed to absolute */
     top: 0;
     z-index: 1000;
+    /* This allows you to click things "behind" the header area */
+    pointer-events: none; 
+}
+
+/* Add this to make sure the logo itself remains clickable/hoverable */
+.logo-container {
+    pointer-events: auto;
 }
 
 .navbar {
@@ -165,20 +172,25 @@ body.light-mode .amharic-quote {
 .nav-links {
     display: flex;
     list-style: none;
-    position: fixed; /* Ensures the pill stays in the viewport */
+    position: fixed; /* Keep this fixed to the screen */
     left: 50%;
-    top: 20px; /* Distance from the top of the screen */
-    transform: translateX(-50%) translateY(-100px); /* Starts hidden above the screen */
+    top: 20px; 
+    transform: translateX(-50%) translateY(-100px); 
     
+    /* Keep your existing glass styles */
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 5px;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     
     opacity: 0;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother entrance */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2000;
+    
+    /* Crucial: ensure the pill is interactive */
+    pointer-events: auto; 
 }
 
 .nav-links.visible {
@@ -279,10 +291,10 @@ body.light-mode .nav-links {
 
 .features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 80px;
     background: var(--features-bg); /* Integrated */
-    padding: 80px 10% 100px 10%; 
+    padding: 80px 5%; 
     position: relative;
     z-index: 1;
     transition: background 0.5s ease; /* Integrated */
@@ -343,37 +355,86 @@ body.light-mode .hero-grid {
 }
 
 .center-image {
-    max-width: 280px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 30px rgba(0, 243, 255, 0.2));
+    width: 700px; 
+    height: auto;
+    display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.4));
+    transition: transform 0.4s ease;
+    z-index: 10;
+
+    /* --- YOUR POSITION CONTROLS --- */
+    position: relative; 
+    
+    /* LEFT & RIGHT: 
+       Positive numbers (e.g., 50px) move it RIGHT. 
+       Negative numbers (e.g., -50px) move it LEFT. */
+    left: 500px; 
+
+    /* UP & DOWN: 
+       Positive numbers (e.g., 20px) move it DOWN. 
+       Negative numbers (e.g., -20px) move it UP. */
+    top: 80px; 
 }
+
 /* Buttons */
+
+/* --- Gold Glassmorphic Button --- */
 .cta-btn {
-    padding: 15px 40px;
-    background: transparent;
-    border: 2px solid #ffd700;
-    color: #ffd700;
-    font-weight: bold;
+    margin-top: 35px;
+    padding: 18px 45px;
+    width: fit-content;
     cursor: pointer;
-    transition: 0.4s;
+    
+    /* RESETTING INHERITANCE FROM .SIDE-SLOGAN */
+    font-size: 1rem !important;      /* Overrides the 80px from parent */
+    line-height: 1 !important;        /* Overrides the 0.8 from parent */
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    
+    /* GLASSMORPHISM STYLE */
+    background: rgba(255, 215, 0, 0.1); 
+    color: #ffd700;
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.05);
+    
+    /* CRITICAL: Allows button to be clicked inside the pointer-events:none container */
+    pointer-events: auto; 
 }
 
 .cta-btn:hover {
     background: #ffd700;
     color: #000;
-    box-shadow: 0 0 30px #ffd700;
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+}
+
+/* Light Mode Adjustment */
+body.light-mode .cta-btn {
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    color: #8a6d3b; /* Darker gold for readability on light background */
+}
+
+body.light-mode .cta-btn:hover {
+    background: #d4af37;
+    color: #fff;
 }
 
 /* --- The New Glassmorphic Gold Cards --- */
 .card {
-    padding: 40px;
+    padding: 80px 50px;
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
     
     /* 1. Rounded Corners */
-    border-radius: 20px; 
+    border-radius: 30px; 
     
     /* 2. Glassmorphism (Semi-transparent background + Blur) */
     background: rgba(255, 255, 255, 0.05); 
@@ -449,12 +510,13 @@ body.light-mode .card {
 
 /* Theme Toggle Styling */
 .theme-toggle {
-    position: absolute;
+    position: fixed; /* Changed from absolute to fixed */
     top: 25px;
     right: 5%;
     cursor: pointer;
-    z-index: 1100; /* Higher than the navbar */
+    z-index: 2100; /* Higher than nav-links to stay on top */
     transition: transform 0.3s ease;
+    pointer-events: auto;
 }
 
 .theme-toggle img {
