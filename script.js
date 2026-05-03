@@ -1,4 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const navLinksContainer = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links a');
+    navLinksContainer.classList.add('visible');
+
+function moveSlider(element) {
+    if (!element) return; // Safety check
+
+    // This gets the exact size and position of the link
+    const rect = element.getBoundingClientRect();
+    const parentRect = navLinksContainer.getBoundingClientRect();
+    
+    // The "Left" position must subtract the container's left position
+    const leftPosition = rect.left - parentRect.left;
+    const width = rect.width;
+
+    // We apply the values. If width is 0 (hidden), we don't move it yet.
+    if (width > 0) {
+        navLinksContainer.style.setProperty('--slider-left', `${leftPosition}px`);
+        navLinksContainer.style.setProperty('--slider-width', `${width}px`);
+    }
+    
+    navItems.forEach(link => link.classList.remove('active'));
+    element.classList.add('active');
+}
+
+setTimeout(() => {
+    if(navItems.length > 0) {
+        moveSlider(navItems[0]);
+    }
+}, 100);
+
+// Add the click trigger to every link
+navItems.forEach(item => {
+    item.addEventListener('click', function() {
+        moveSlider(this);
+    });
+});
 
     // --- 1. Reveal Cards on Scroll ---
     const cards = document.querySelectorAll('.card');
@@ -42,26 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             }
-        });
+        }); // Added the missing }); here!
     });
-}); // This closing bracket matches the one we added at the top!
 
-const themeImg = document.querySelector('.theme-toggle img');
-const themeBtn = document.querySelector('.theme-toggle');
-const body = document.body;
+    // --- 4. Theme Toggle (Inside DOMContentLoaded) ---
+    const themeImg = document.querySelector('.theme-toggle img');
+    const themeBtn = document.querySelector('.theme-toggle');
+    const body = document.body;
 
-// Using the 'raw' links ensures they load correctly
-const darkIcon = "https://raw.githubusercontent.com/selammengistu0005-ai/Power_fitness/main/7c7bc638-ea36-40e4-a6df-79f49afe917f.png";
-const lightIcon = "https://raw.githubusercontent.com/selammengistu0005-ai/Power_fitness/main/998bff92-e1fd-4e51-9501-bb58cb15e2b9.png";
+    const darkIcon = "https://raw.githubusercontent.com/selammengistu0005-ai/Power_fitness/main/7c7bc638-ea36-40e4-a6df-79f49afe917f.png";
+    const lightIcon = "https://raw.githubusercontent.com/selammengistu0005-ai/Power_fitness/main/998bff92-e1fd-4e51-9501-bb58cb15e2b9.png";
 
-themeBtn.addEventListener('click', () => {
-    // 1. Flip the background colors
-    body.classList.toggle('light-mode');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            themeImg.src = body.classList.contains('light-mode') ? lightIcon : darkIcon;
 
-    // 2. Flip the image icon
-    if (body.classList.contains('light-mode')) {
-        themeImg.src = lightIcon;
-    } else {
-        themeImg.src = darkIcon;
+            // Refresh the gold pill position so it stays aligned in light mode
+            const activeLink = document.querySelector('.nav-links a.active');
+            moveSlider(activeLink);
+        });
     }
-});
+
+}); // THIS IS THE FINAL CLOSING FOR DOMContentLoaded
