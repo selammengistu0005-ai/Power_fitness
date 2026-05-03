@@ -7,11 +7,13 @@
 }
 
 body.light-mode {
-    --hero-bg: #ffffff;
-    --features-bg: #f9f9f9; /* Soft light gray for the lower part */
-    --text-color: #1a1a1a; /* Dark text for light mode */
-    --grid-line: rgba(0, 243, 255, 0.5);
-    --grid-fill: rgba(255, 255, 255, 0.9);
+    --hero-bg: #ececec;
+    --features-bg: #ffffff;
+    --text-color: #1a1a1a; 
+    /* Darker lines for the light background */
+    --grid-line: rgba(0, 0, 0, 0.1); 
+    /* Transparent fill so we can see the Ash color */
+    --grid-fill: transparent; 
 }
 
 * {
@@ -33,7 +35,7 @@ body {
 header {
     width: 100%;
     padding: 20px 5%;
-    position: absolute; /* Per your preference for non-sticky headers */
+    position: fixed; /* Changed from absolute to fixed */
     top: 0;
     z-index: 1000;
 }
@@ -47,46 +49,194 @@ header {
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #ffd700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    z-index: 1001; /* Ensure it stays above the grid */
+    display: flex;
+    align-items: center;
+    z-index: 1001; /* Keeps it above the grid */
 }
 
-.logo span {
-    color: #00f3ff; /* Neon Cyan */
-    text-shadow: 0 0 15px #00f3ff;
+.logo img {
+    height: 100px; /* Increased size to make it "a bit big" */
+    width: auto;
+    transition: all 0.4s ease; /* Smooth transition for the hover effects */
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.2)); /* Initial subtle gold glow */
+}
+
+.logo img:hover {
+    transform: scale(1.15); /* Makes it slightly bigger on hover */
+    filter: drop-shadow(0 0 20px #00f3ff) drop-shadow(0 0 35px #00f3ff); /* Intense Blue Neon Glow */
+    cursor: pointer;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns both logo and text to the far left */
+    gap: 2px;
+}
+
+.side-slogan {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    
+    /* Move the sizing here so it applies to EVERYTHING inside */
+    font-family: 'Arial Black', sans-serif;
+    font-size: 80px; 
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.8; /* Tighter line height since they are the same size */
+    letter-spacing: -3px;
+}
+
+/* This ensures any span inside also stays at 120px */
+.side-slogan span, 
+.side-slogan div {
+    font-size: 80px;
+}
+
+/* ADD THIS NEW RULE */
+.white-word {
+    color: #ffffff !important;
+    /* Adding a subtle white glow so it matches the neon vibe */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* KEEP YOUR EXISTING RULES BELOW */
+.hard-times {
+    color: #000000;
+    text-shadow: 
+        1px 1px 0px #666, 
+        2px 2px 0px #444,
+        0 0 15px rgba(255, 255, 255, 0.05);
+    display: block; 
+}
+
+.good-times {
+    color: #ffd700; 
+    text-shadow: 0 0 25px rgba(255, 215, 0, 0.5); 
+    display: block;
+}
+
+body.light-mode .hard-times {
+    text-shadow: none; 
+}
+
+/* Change HARD and GOOD to Blue in Light Mode */
+body.light-mode .white-word {
+    color: #00f3ff !important; /* Neon Blue/Cyan */
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.3); /* Subtle blue glow */
+}
+
+/* Ensure the black 'TIMES' stays clean on the Ash background */
+body.light-mode .hard-times {
+    text-shadow: none; 
+}
+
+.amharic-quote {
+    margin-top: 25px;      /* More space between the big slogan and the quote */
+    font-size: 1.2rem !important; 
+    font-family: 'Segoe UI', Tahoma, sans-serif; /* Cleaner fonts for Amharic */
+    font-weight: 400;
+    
+    /* THE FIX FOR THE "CHUNKY" LOOK: */
+    line-height: 1.8;      /* Significant space between lines of text */
+    letter-spacing: 0.5px; /* Tiny bit of space between characters */
+    word-spacing: 3px;     /* Space between words */
+    
+    max-width: 500px;      /* Let the text stretch out a bit more */
+    color: #ffffff;        
+    text-shadow: none;     /* Removing shadows helps Amharic look sharper */
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+/* Light Mode Flip */
+body.light-mode .amharic-quote {
+    color: #000000 !important;
+    opacity: 1;
+    font-weight: 500;      /* Slightly bolder for light mode visibility */
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    /* This is the magic: it pushes the links to the absolute center of the header */
-    position: absolute;
+    position: fixed; /* Ensures the pill stays in the viewport */
     left: 50%;
-    transform: translateX(-50%);
+    top: 20px; /* Distance from the top of the screen */
+    transform: translateX(-50%) translateY(-100px); /* Starts hidden above the screen */
+    
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 5px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother entrance */
+    z-index: 2000;
+}
+
+.nav-links.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0); /* Drops down into view */
+    pointer-events: auto;
+}
+
+.nav-links::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: var(--slider-left, 0); 
+    width: var(--slider-width, 0); /* JS will fill this in */
+    height: calc(100% - 10px);
+    background: #ffd700;
+    border-radius: 50px;
+    z-index: -1;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
 
 .nav-links li a {
     color: #fff;
     text-decoration: none;
-    margin: 0 20px;
-    transition: 0.3s;
-    font-size: 0.9rem;
+    padding: 10px 25px;
+    display: block;
+    transition: color 0.3s;
+    font-size: 0.85rem;
     text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+    z-index: 2; /* Sits on top of the gold pill */
 }
 
+/* This flips the text to black when the gold pill is behind it */
+.nav-links li a.active {
+    color: #000 !important;
+}
+
+/* Update the hover to interact with the new pill style */
 .nav-links li a:hover {
-    color: #ffd700;
+    color: #fff; /* Keep text white so it's readable on gold */
+    opacity: 0.8;
+}
+
+/* Light mode adjustment for the pill container */
+body.light-mode .nav-links {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* --- Hero Section & Split Logic --- */
 .hero {
     width: 100%;
-    background-color: #000000; 
+    background-color: var(--hero-bg); /* Use the variable instead of #000 */
     position: relative;
+    transition: background 0.5s ease;
 }
 
 .hero-top {
@@ -108,9 +258,9 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    /* CHANGE THIS: Ensure it is the lowest layer inside the hero */
+    z-index: 0; 
 
-    /* BLUE BORDERS: Now using variables */
     background-image: 
         linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
@@ -118,12 +268,12 @@ header {
     background-size: 50px 50px;
 
     backdrop-filter: blur(2px);
-    filter: drop-shadow(0px 0px 3px rgba(0, 243, 255, 0.4));
-
-    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
     
-    transition: all 0.5s ease; /* Smoothly fills with white */
+    /* CHANGE THIS: Soften the mask so it doesn't hide the lines completely */
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 80%, transparent 100%);
+    
+    transition: all 0.5s ease;
     pointer-events: none;
 }
 
@@ -140,12 +290,12 @@ header {
 
 .organic-divider {
     position: absolute;
-    bottom: -5px;
+    bottom: -1px; /* Closes the gap to prevent a black line */
     left: 0;
     width: 100%;
     overflow: hidden;
     line-height: 0;
-    z-index: 15;
+    z-index: 20; /* Brings the glow to the front */
 }
 
 .organic-divider svg {
@@ -155,10 +305,40 @@ header {
     height: 100px;
 }
 
+/* Update the existing shape-fill block */
 .organic-divider .shape-fill {
-    fill: var(--features-bg); /* Integrated */
-    filter: drop-shadow(0px -3px 8px #00f3ff); /* Only the Cyan Glow */
-    transition: fill 0.5s ease; /* Integrated */
+    fill: var(--features-bg); 
+    transition: fill 0.5s ease, filter 0.5s ease;
+}
+
+/* This now works for BOTH themes */
+.organic-divider .shape-fill {
+    fill: var(--features-bg); 
+    /* The Neon Border */
+    filter: 
+        drop-shadow(0px -2px 4px rgba(0, 243, 255, 0.9)) 
+        drop-shadow(0px -5px 12px rgba(0, 150, 255, 0.5));
+    
+    stroke: rgba(0, 243, 255, 0.4);
+    stroke-width: 1px;
+    transition: fill 0.5s ease, filter 0.5s ease;
+}
+
+body.light-mode .hero-grid {
+    /* This creates the "Neon White" glow effect */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+    
+    /* Ensures the grid fade doesn't wash out the dark centers too early */
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.9) 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.9) 70%, transparent 100%);
+    
+    opacity: 0.8; /* Slight transparency so the Ash background peeks through the black centers */
+}
+
+body.light-mode .card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Very light border to define the card shape */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); /* Soft lift from the white background */
 }
 
 .hero-content {
