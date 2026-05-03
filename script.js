@@ -13,8 +13,6 @@ function moveSlider(element) {
     // The "Left" position must subtract the container's left position
     const leftPosition = rect.left - parentRect.left;
     const width = rect.width;
-
-    // We apply the values. If width is 0 (hidden), we don't move it yet.
     if (width > 0) {
         navLinksContainer.style.setProperty('--slider-left', `${leftPosition}px`);
         navLinksContainer.style.setProperty('--slider-width', `${width}px`);
@@ -100,5 +98,31 @@ navItems.forEach(item => {
             moveSlider(activeLink);
         });
     }
+
+    // --- 5. Programs View State Toggle ---
+const programsLink = document.querySelector('a[href="#programs"]');
+const homeLink = document.querySelector('a[href="#home"]');
+
+if (programsLink) {
+programsLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.body.classList.add('programs-mode');
+    document.body.classList.add('light-mode'); // Add this line
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+}
+
+if (homeLink) {
+    homeLink.addEventListener('click', (e) => {
+        // 1. Remove the Programs view
+        document.body.classList.remove('programs-mode');
+        
+        // 2. THE FIX: Remove the white theme so Home goes back to dark
+        document.body.classList.remove('light-mode');
+
+        // Optional: ensure the default view is restored
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
 
 }); // THIS IS THE FINAL CLOSING FOR DOMContentLoaded
