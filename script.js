@@ -104,12 +104,12 @@ const programsLink = document.querySelector('a[href="#programs"]');
 const homeLink = document.querySelector('a[href="#home"]');
 
 if (programsLink) {
-programsLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.body.classList.add('programs-mode');
-    document.body.classList.add('light-mode'); // Add this line
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+    programsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.body.classList.add('programs-mode');
+        // REMOVED: document.body.classList.add('light-mode'); 
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 if (homeLink) {
@@ -117,10 +117,9 @@ if (homeLink) {
         // 1. Remove the Programs view
         document.body.classList.remove('programs-mode');
         
-        // 2. THE FIX: Remove the white theme so Home goes back to dark
-        document.body.classList.remove('light-mode');
+        // 2. THE FIX: Do NOT remove light-mode here. 
+        // This allows the user to stay in the theme they manually picked.
 
-        // Optional: ensure the default view is restored
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
