@@ -1398,4 +1398,65 @@ body.light-mode .point-icon {
     .hero-top {
         padding-bottom: 100px; /* Extra space so the nav doesn't cover the lifter */
     }
+    
+    /* 1. Create the 2x2 Grid Layout */
+    .programs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+        gap: 15px;                      /* Tighter gap for small screens */
+        padding: 80px 15px 120px;       /* Top padding for toggle, bottom for nav */
+        width: 100%;
+    }
+
+    /* 2. Shrink the Program Cards */
+    .prog-card {
+        padding: 15px 10px;
+        min-height: 280px;              /* Shorter height for the grid look */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* 3. Scale down the Icon Badges */
+    .icon-badge-container {
+        transform: scale(0.8);          /* Uniformly shrink the icon area */
+        margin-bottom: -10px;
+    }
+
+    .gold-circle-frame, 
+    .blue-circle-frame, 
+    .green-circle-frame, 
+    .red-circle-frame {
+        width: 80px;                    /* Reduced from desktop size */
+        height: 80px;
+    }
+
+    /* 4. Adjust Typography for small space */
+    .prog-card h4 {
+        font-size: 1.1rem;
+        margin: 10px 0;
+    }
+
+    .prog-card ul {
+        display: none;                  /* OPTIONAL: Hide lists to save space */
+    }
+
+    /* OR, if you want to keep the list, make it very small: */
+    /*
+    .prog-card ul li {
+        font-size: 0.65rem;
+        margin-bottom: 3px;
+    }
+    */
+
+    /* 5. Adjust the View Program Button */
+    .prog-view-btn {
+        padding: 8px 12px;
+        font-size: 0.7rem;
+        width: 90%;
+        position: relative;             /* Ensure it's visible on mobile */
+        opacity: 1 !important;          /* Force visibility since hover is hard on mobile */
+        bottom: 0;
+    }
 }
