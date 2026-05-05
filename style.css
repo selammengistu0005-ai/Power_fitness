@@ -1316,4 +1316,46 @@ body.light-mode .point-icon {
         min-width: 160px;
         padding: 8px 15px;
     }
+    .features {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding: 40px 5%;
+    }
+
+    /* 2. Center the content inside each card */
+    .card {
+        width: 100%;
+        max-width: 400px; /* Prevents cards from becoming too wide */
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    /* 3. Stack the icon frame ON TOP of the text */
+    .card h3 {
+        flex-direction: column; /* Moves icon above the text */
+        gap: 15px;
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    /* 4. Fix the icon frame spacing and size */
+    .icon-frame {
+        /* CRITICAL: This removes the -40px desktop pull */
+        margin-left: 0 !important; 
+        margin-right: 0 !important;
+        
+        /* Centering the box itself */
+        margin: 0 auto; 
+        
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+    }
+
+    .icon-frame img {
+        width: 40px;
+        height: 40px;
+    }
 }
