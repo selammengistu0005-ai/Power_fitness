@@ -1359,38 +1359,43 @@ body.light-mode .point-icon {
         height: 40px;
     }
 
-    /* 5. Shrink the Nav Links Pill */
     .nav-links {
-        display: flex; /* Ensures it stays visible on mobile */
-        top: 15px;    /* Slightly closer to the top edge */
-        padding: 3px;  /* Tighter internal spacing */
-        gap: 0;        /* No extra gap between items */
+        top: auto;            /* Removes the top positioning */
+        bottom: 20px;         /* Anchors it to the bottom of the screen */
+        position: fixed;      /* Keeps it visible while scrolling */
+        left: 50%;
+        transform: translateX(-50%); /* Centers it horizontally */
+        
+        /* Adjusting size for the bottom layout */
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast at bottom */
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 3000;         /* Ensures it stays above all content */
     }
 
     .nav-links li a {
-        padding: 8px 12px;  /* Reduced from 10px 25px */
-        font-size: 0.7rem;  /* Smaller text for narrow screens */
-        letter-spacing: 1px;
+        padding: 10px 15px;    /* Slightly larger touch targets for thumbs */
+        font-size: 0.75rem;
     }
 
-    /* Adjust the gold slider height to match the smaller links */
-    .nav-links::before {
-        height: calc(100% - 6px);
-        top: 3px;
-    }
-
-    /* Adjust Logo size to match the smaller header feel */
-    .logo img {
-        height: 60px; /* Scaled down from 100px */
-    }
-
-    /* Move the Theme Toggle to align with the smaller nav */
+    /* 2. Theme Toggle Visibility Fix */
     .theme-toggle {
-        top: 18px;
-        right: 3%;
+        position: fixed;      /* Ensures it stays in the viewport */
+        top: 20px;            /* Keeps it at the top right */
+        right: 5%;
+        z-index: 3100;        /* Higher than the nav-links */
+        pointer-events: auto; /* Ensures it is clickable */
+        display: block !important; /* Forces visibility */
     }
 
     .theme-toggle img {
-        width: 30px; /* Scaled down from 40px */
+        width: 35px;
+        filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.5));
+    }
+
+    /* 3. Adjusting the Hero Padding to account for bottom nav */
+    .hero-top {
+        padding-bottom: 100px; /* Extra space so the nav doesn't cover the lifter */
     }
 }
