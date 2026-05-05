@@ -1246,8 +1246,74 @@ body.light-mode .point-icon {
     }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2.2rem; }
-    .nav-links { display: none; }
+    /* 1. Reset the Hero Container for stacking */
+    .hero-top {
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 120px; /* Space for the logo/header */
+        padding-bottom: 50px;
+    }
+
+    /* 2. Bring the Slogan to the center and shrink it */
+    .side-slogan {
+        position: relative; /* Removes the absolute floating */
+        left: 0;
+        top: 0;
+        transform: none;
+        text-align: center;
+        align-items: center;
+        width: 100%;
+        font-size: 45px; /* Significantly smaller for mobile */
+        margin-bottom: 30px;
+    }
+
+    /* Override the 80px sizes from your desktop rules */
+    .side-slogan span, 
+    .side-slogan div {
+        font-size: 45px;
+    }
+
+    /* 3. Adjust the Amharic Quote and Button */
+    .amharic-quote {
+        font-size: 1rem !important;
+        max-width: 90%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .cta-btn {
+        margin: 10px auto;
+    }
+
+    /* 4. Reset the Lifter Image (The Center Image) */
+    .center-image {
+        position: relative;
+        left: 0; /* Removes the 500px offset */
+        top: 20px; /* Small gap below the button */
+        width: 90%; /* Scales down from 700px to fit the phone */
+        max-width: 400px; /* Prevents it from getting too huge */
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* 5. Hide the Stat Pills (Optional - they usually clutter mobile) */
+    .stat-group {
+        position: relative;
+        right: 0;
+        top: 0;
+        transform: none;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 40px;
+        gap: 10px;
+    }
+
+    .stat-pill {
+        min-width: 160px;
+        padding: 8px 15px;
+    }
 }
