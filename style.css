@@ -1400,63 +1400,61 @@ body.light-mode .point-icon {
     }
     
     /* 1. Create the 2x2 Grid Layout */
-    .programs-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Two equal columns */
-        gap: 15px;                      /* Tighter gap for small screens */
-        padding: 80px 15px 120px;       /* Top padding for toggle, bottom for nav */
-        width: 100%;
-    }
+    /* 1. Stack the Programs Grid vertically */
+.programs-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Reduced gap for a tighter mobile look */
+    padding: 20px 5%;
+}
 
-    /* 2. Shrink the Program Cards */
-    .prog-card {
-        padding: 15px 10px;
-        min-height: 280px;              /* Shorter height for the grid look */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-    }
+/* 2. Shrink the Program Cards */
+.prog-card {
+    width: 95%;
+    max-width: 340px; /* Slimmer cards for vertical scrolling */
+    padding: 25px 15px;
+    min-height: auto; /* Allow height to adjust to content */
+}
 
-    /* 3. Scale down the Icon Badges */
-    .icon-badge-container {
-        transform: scale(0.8);          /* Uniformly shrink the icon area */
-        margin-bottom: -10px;
-    }
+/* 3. Scale down the Circle Frames and Icons */
+.gold-circle-frame, 
+.blue-circle-frame, 
+.green-circle-frame, 
+.red-circle-frame {
+    width: 100px !important;  /* Reduced from desktop sizes */
+    height: 100px !important;
+    margin-bottom: 15px;
+}
 
-    .gold-circle-frame, 
-    .blue-circle-frame, 
-    .green-circle-frame, 
-    .red-circle-frame {
-        width: 80px;                    /* Reduced from desktop size */
-        height: 80px;
-    }
+.badge-icon {
+    width: 50px !important;   /* Scaled down icon size */
+    height: 50px !important;
+}
 
-    /* 4. Adjust Typography for small space */
-    .prog-card h4 {
-        font-size: 1.1rem;
-        margin: 10px 0;
-    }
+/* 4. Adjust the Program View Buttons */
+.prog-view-btn {
+    padding: 8px 16px;        /* Smaller padding */
+    font-size: 0.8rem;        /* Smaller font */
+    width: auto;
+    min-width: 120px;
+    bottom: 10px;             /* Position adjustment for smaller frames */
+}
 
-    .prog-card ul {
-        display: none;                  /* OPTIONAL: Hide lists to save space */
-    }
+/* 5. Typography Adjustments */
+.prog-card h4 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
 
-    /* OR, if you want to keep the list, make it very small: */
-    /*
-    .prog-card ul li {
-        font-size: 0.65rem;
-        margin-bottom: 3px;
-    }
-    */
+.prog-card ul {
+    font-size: 0.85rem;       /* Smaller list text */
+    gap: 5px;                 /* Tighter spacing between list items */
+}
 
-    /* 5. Adjust the View Program Button */
-    .prog-view-btn {
-        padding: 8px 12px;
-        font-size: 0.7rem;
-        width: 90%;
-        position: relative;             /* Ensure it's visible on mobile */
-        opacity: 1 !important;          /* Force visibility since hover is hard on mobile */
-        bottom: 0;
-    }
+/* 6. Ensure visibility since desktop might have opacity: 0 */
+body.programs-mode .prog-card {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
 }
