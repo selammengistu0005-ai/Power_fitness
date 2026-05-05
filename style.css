@@ -1254,9 +1254,57 @@ body.light-mode .point-icon {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        padding-top: 120px; /* Space for the logo/header */
-        padding-bottom: 50px;
+        padding-top: 120px; 
+        padding-bottom: 150px;
+        overflow: visible !important;
+        position: relative;
     }
+    
+    .hero-grid {
+        height: 100%;
+        min-height: 100%;
+        position: absolute;
+        z-index: 0;
+    }
+    
+    .organic-divider {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        z-index: 5; 
+        pointer-events: none;
+    }
+    
+    .organic-divider .shape-fill {
+        fill: var(--features-bg);
+    }
+    
+    .programs-grid {
+        position: relative;
+        z-index: 10; /* Higher than the divider */
+        padding-bottom: 120px; /* Crucial: Creates space so the last card clears the divider */
+    }
+
+    /* 1. Prevent the divider from "eating" the cards */
+.organic-divider {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 5; /* Lower this so cards can sit on top */
+    pointer-events: none; /* Allows you to scroll "through" the divider */
+}
+
+/* 2. Ensure the divider fill matches the bottom section */
+.organic-divider .shape-fill {
+    fill: var(--features-bg);
+}
+
+/* 3. The Grid Container Fix */
+.programs-grid {
+    position: relative;
+    z-index: 10; /* Higher than the divider */
+    padding-bottom: 120px; /* Crucial: Creates space so the last card clears the divider */
+}
 
     /* 2. Bring the Slogan to the center and shrink it */
     .side-slogan {
