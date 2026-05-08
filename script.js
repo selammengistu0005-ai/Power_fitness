@@ -80,24 +80,42 @@ navItems.forEach(item => {
         }); // Added the missing }); here!
     });
 
-    // --- 4. Theme Toggle (Inside DOMContentLoaded) ---
-    const themeImg = document.querySelector('.theme-toggle img');
-    const themeBtn = document.querySelector('.theme-toggle');
-    const body = document.body;
+// --- 4. Theme Toggle ---
+// --- 4. Theme Toggle ---
+const themeBtn = document.querySelector('.theme-toggle');
+const themeImg = document.querySelector('.theme-toggle img');
+const body = document.body;
 
-    const darkIcon = "https://raw.githubusercontent.com/selammengistu0005-ai/Power_fitness/main/7c7bc638-ea36-40e4-a6df-79f49afe917f.png";
-    const lightIcon = "https://raw.githubusercontent.com/selammengistu0005-ai/Power_fitness/main/998bff92-e1fd-4e51-9501-bb58cb15e2b9.png";
+// URL 1: The Gym Icon (For Dark Mode)
+const darkThemeIcon = "https://res.cloudinary.com/dza5rdls6/image/upload/f_auto,q_auto/v1778065691/7c7bc638-ea36-40e4-a6df-79f49afe917f_1_vhc8gz.png";
 
-    if (themeBtn) {
-        themeBtn.addEventListener('click', () => {
-            body.classList.toggle('light-mode');
-            themeImg.src = body.classList.contains('light-mode') ? lightIcon : darkIcon;
+// URL 2: The Moon/Toggle Icon (For Light Mode)
+const lightThemeIcon = "https://res.cloudinary.com/dza5rdls6/image/upload/f_auto,q_auto/v1778066476/998bff92-e1fd-4e51-9501-bb58cb15e2b9_1_fujrnz.png";
 
-            // Refresh the gold pill position so it stays aligned in light mode
-            const activeLink = document.querySelector('.nav-links a.active');
+if (themeBtn && themeImg) {
+    // Logic: If body HAS 'light-mode', show Moon. Otherwise, show Gym icon.
+    const updateIcon = () => {
+        if (body.classList.contains('light-mode')) {
+            themeImg.src = lightThemeIcon;
+        } else {
+            themeImg.src = darkThemeIcon;
+        }
+    };
+
+    // Run once on load to set the default
+    updateIcon();
+
+    themeBtn.addEventListener('click', () => {
+        body.classList.toggle('light-mode');
+        updateIcon();
+
+        // Sync your nav slider
+        const activeLink = document.querySelector('.nav-links a.active');
+        if (activeLink && typeof moveSlider === 'function') {
             moveSlider(activeLink);
-        });
-    }
+        }
+    });
+}
 
     // --- 5. Programs View State Toggle ---
 const programsLink = document.querySelector('a[href="#programs"]');
