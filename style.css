@@ -379,7 +379,7 @@ body.light-mode .hero-grid {
     /* UP & DOWN: 
        Positive numbers (e.g., 20px) move it DOWN. 
        Negative numbers (e.g., -20px) move it UP. */
-    top: 80px; 
+    top: 150px; 
 }
 
 /* Buttons */
@@ -515,29 +515,42 @@ body.light-mode .card {
 }
 
 /* Theme Toggle Styling */
+/* The Container: Fixed to the top right corner */
 .theme-toggle {
-    position: fixed; /* Changed from absolute to fixed */
+    position: fixed;
     top: 25px;
     right: 5%;
+    width: 45px;      /* Set a defined width */
+    height: 45px;     /* Set a defined height */
     cursor: pointer;
-    z-index: 2100; /* Higher than nav-links to stay on top */
-    transition: transform 0.3s ease;
+    z-index: 9999;    /* Max priority to stay above hero sections */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     pointer-events: auto;
 }
 
+/* The Image: Forced sizing and visibility */
 .theme-toggle img {
-    width: 40px; /* Adjust size as needed */
+    width: 100%;      /* Fills the 45px container */
     height: auto;
-    filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
     display: block;
+    
+    /* DARK MODE DEFAULT: If icon is black, this turns it white/cyan */
+    filter: invert(1) drop-shadow(0 0 8px rgba(0, 243, 255, 0.8));
+    
+    transition: filter 0.3s ease;
 }
 
+/* Hover Effect: Pop and Rotate */
 .theme-toggle:hover {
     transform: scale(1.1) rotate(15deg);
 }
 
+/* LIGHT MODE OVERRIDE: Switches icon back to dark if body has .light-mode */
 body.light-mode .theme-toggle img {
-    filter: drop-shadow(0 0 8px rgba(0, 150, 255, 0.6)) brightness(0.8);
+    filter: invert(0) drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
 }
 
 /* --- 10K+ Happy Lifters Pill --- */
