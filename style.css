@@ -514,45 +514,6 @@ body.light-mode .card {
     filter: brightness(0); 
 }
 
-/* Theme Toggle Styling */
-/* The Container: Fixed to the top right corner */
-.theme-toggle {
-    position: fixed;
-    top: 25px;
-    right: 5%;
-    width: 45px;      /* Set a defined width */
-    height: 45px;     /* Set a defined height */
-    cursor: pointer;
-    z-index: 9999;    /* Max priority to stay above hero sections */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    pointer-events: auto;
-}
-
-/* The Image: Forced sizing and visibility */
-.theme-toggle img {
-    width: 100%;      /* Fills the 45px container */
-    height: auto;
-    display: block;
-    
-    /* DARK MODE DEFAULT: If icon is black, this turns it white/cyan */
-    filter: invert(1) drop-shadow(0 0 8px rgba(0, 243, 255, 0.8));
-    
-    transition: filter 0.3s ease;
-}
-
-/* Hover Effect: Pop and Rotate */
-.theme-toggle:hover {
-    transform: scale(1.1) rotate(15deg);
-}
-
-/* LIGHT MODE OVERRIDE: Switches icon back to dark if body has .light-mode */
-body.light-mode .theme-toggle img {
-    filter: invert(0) drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
-}
-
 /* --- 10K+ Happy Lifters Pill --- */
 /* --- Stat Pills Group (Container) --- */
 .stat-group {
@@ -1248,6 +1209,38 @@ body.light-mode .why-point p {
 body.light-mode .point-icon {
     color: #0077cc;
     text-shadow: none;
+}
+
+.theme-toggle {
+    /* Use 'fixed' to take it out of the normal document flow entirely */
+    position: fixed; 
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    
+    /* Bump this up significantly */
+    z-index: 99999; 
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* This ensures clicks go to the toggle even if something is slightly over it */
+    pointer-events: auto; 
+}
+
+.theme-toggle img {
+    width: 60px; /* Reduced slightly to ensure it fits mobile screens better */
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    
+    /* This prevents the image itself from interfering with the div's click event */
+    pointer-events: none; 
+}
+
+.theme-toggle:hover img {
+    transform: rotate(15deg) scale(1.1);
 }
 
 /* Ensure it doesn't overlap on smaller screens */
