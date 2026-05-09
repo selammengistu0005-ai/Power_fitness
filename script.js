@@ -80,42 +80,48 @@ navItems.forEach(item => {
         }); // Added the missing }); here!
     });
 
-// --- 4. Theme Toggle ---
-// --- 4. Theme Toggle ---
+// --- Theme Toggle Logic ---
+const lightDumbbell = "https://res.cloudinary.com/dza5rdls6/image/upload/v1778261770/light_icon_pmojd5.png"; 
+const darkDumbbell = "https://res.cloudinary.com/dza5rdls6/image/upload/v1778261749/dark_icon_dbyfjt.png";  
+
 const themeBtn = document.querySelector('.theme-toggle');
 const themeImg = document.querySelector('.theme-toggle img');
 const body = document.body;
 
-// URL 1: The Gym Icon (For Dark Mode)
-const darkThemeIcon = "https://res.cloudinary.com/dza5rdls6/image/upload/f_auto,q_auto/v1778065691/7c7bc638-ea36-40e4-a6df-79f49afe917f_1_vhc8gz.png";
-
-// URL 2: The Moon/Toggle Icon (For Light Mode)
-const lightThemeIcon = "https://res.cloudinary.com/dza5rdls6/image/upload/f_auto,q_auto/v1778066476/998bff92-e1fd-4e51-9501-bb58cb15e2b9_1_fujrnz.png";
-
 if (themeBtn && themeImg) {
-    // Logic: If body HAS 'light-mode', show Moon. Otherwise, show Gym icon.
     const updateIcon = () => {
-        if (body.classList.contains('light-mode')) {
-            themeImg.src = lightThemeIcon;
-        } else {
-            themeImg.src = darkThemeIcon;
-        }
+        // If light-mode is active, show the DARK icon (to switch back)
+        // Otherwise, show the LIGHT icon
+        themeImg.src = body.classList.contains('light-mode') ? darkDumbbell : lightDumbbell;
     };
 
-    // Run once on load to set the default
-    updateIcon();
+    // 1. Check for saved preference on load
+    if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light-mode');
+}
 
+// ALWAYS initialize the icon
+updateIcon();
+
+    // 2. Click Event
     themeBtn.addEventListener('click', () => {
         body.classList.toggle('light-mode');
+        
+        // Save the current state
+        const isLight = body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Swap the image
         updateIcon();
 
-        // Sync your nav slider
+        // Optional: Refresh the nav slider position if colors changed
         const activeLink = document.querySelector('.nav-links a.active');
         if (activeLink && typeof moveSlider === 'function') {
             moveSlider(activeLink);
         }
     });
 }
+
 
     // --- 5. Programs View State Toggle ---
 const programsLink = document.querySelector('a[href="#programs"]');
@@ -132,14 +138,9 @@ if (programsLink) {
 
 if (homeLink) {
     homeLink.addEventListener('click', (e) => {
-        // 1. Remove the Programs view
+        e.preventDefault(); // Add this to keep the scroll smooth!
         document.body.classList.remove('programs-mode');
-        
-        // 2. THE FIX: Do NOT remove light-mode here. 
-        // This allows the user to stay in the theme they manually picked.
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
-
-}); // THIS IS THE FINAL CLOSING FOR DOMContentLoaded
+});
